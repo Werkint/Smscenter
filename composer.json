@@ -1,0 +1,21 @@
+{
+    "name":        "werkint/smscenter",
+    "type":        "library",
+    "description": "Library for smsc.ru",
+    "license":     "own",
+    "authors":     [
+        {
+            "name":  "Bogdan Yurov",
+            "email": "bogdan@yurov.me"
+        }
+    ],
+    "require":     {
+        "werkint/httpclient": "*",
+        "php":                ">=5.4"
+    },
+    "autoload":    {
+        "psr-0": {
+            "Werkint\\Smscenter": "lib/"
+        }
+    }
+}
