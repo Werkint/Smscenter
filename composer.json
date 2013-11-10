@@ -1,8 +1,7 @@
 {
     "name":        "werkint/smscenter",
-    "type":        "library",
     "description": "Library for smsc.ru",
-    "license":     "own",
+    "license":     "GPL-3.0+",
     "authors":     [
         {
             "name":  "Bogdan Yurov",
@@ -10,8 +9,9 @@
         }
     ],
     "require":     {
-        "werkint/httpclient": "*",
-        "php":                ">=5.4"
+        "ext-curl": "*",
+
+        "php": ">=5.4"
     },
     "autoload":    {
         "psr-0": {

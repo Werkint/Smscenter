@@ -1,6 +1,7 @@
 <?php
 namespace Werkint\Smscenter;
 
+use Werkint\Smscenter\Exception\ServerException;
 use Werkint\Smscenter\Response\IncomingMessage;
 use Werkint\Smscenter\Response\MessageError;
 use Werkint\Smscenter\Response\MessageInfo;
@@ -11,7 +12,8 @@ use Werkint\Smscenter\Response\PhoneOperator;
  *
  * @author Bogdan Yurov <bogdan@yurov.me>
  */
-class Smscenter
+class Smscenter implements
+    SmscenterInterface
 {
     // API url
     const BASE_URL = 'https://smsc.ru/sys/';
@@ -33,15 +35,13 @@ class Smscenter
     }
 
     /**
-     * Sends messages
-     * @param array     $phones  Target phones
-     * @param string    $message Text message
-     * @param int       $format  Format (listed below)
-     * @param \DateTime $time    Send time
-     * @return mixed
+     * {@inheritdoc}
      */
     public function sendMessages(
-        array $phones, $format = 0, $message = null, \DateTime $time = null
+        array $phones,
+        $format = 0,
+        $message = null,
+        \DateTime $time = null
     ) {
         $params = [
             'phones'  => join(';', $phones),
@@ -64,12 +64,11 @@ class Smscenter
     }
 
     /**
-     * Lists incoming messages
-     * @param int $hours Hours to list, MAX = 70
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function getIncomingMessages($hours = 24)
-    {
+    public function getIncomingMessages(
+        $hours = 24
+    ) {
         $hours = min($hours, 70);
         $list = $this->query('get', [
             'get_answers' => '1',
@@ -92,9 +91,7 @@ class Smscenter
     }
 
     /**
-     * Get account balance
-     * Query amount is limited to 3 per minute.
-     * @return float
+     * {@inheritdoc}
      */
     public function getBalance()
     {
@@ -104,15 +101,13 @@ class Smscenter
     }
 
     /**
-     * Gets message status
-     * Query amount is limited to 3 per minute for same message.
-     * @param string $phone
-     * @param int    $messageId
-     * @param bool   $moreInfo
-     * @return MessageInfo|MessageError
+     * {@inheritdoc}
      */
-    public function getStatus($phone, $messageId, $moreInfo = false)
-    {
+    public function getStatus(
+        $phone,
+        $messageId,
+        $moreInfo = false
+    ) {
         $ret = $this->query('status', [
             'phone' => $phone,
             'id'    => $messageId,
@@ -134,14 +129,11 @@ class Smscenter
     }
 
     /**
-     * Fetches operator of phone number.
-     * Query amount is limited to 100 per minute (3 for same phone).
-     * Only for Russian Federation.
-     * @param $phone
-     * @return PhoneOperator
+     * {@inheritdoc}
      */
-    public function getPhoneOperator($phone)
-    {
+    public function getPhoneOperator(
+        $phone
+    ) {
         $ret = $this->query('info', [
             'get_operator' => '1',
             'phone'        => $phone,
@@ -160,8 +152,10 @@ class Smscenter
      * @return mixed
      * @throws \Exception
      */
-    protected function query($command, array $params = [])
-    {
+    protected function query(
+        $command,
+        array $params = []
+    ) {
         $params = array_merge($params, [
             'fmt'   => '3',
             'login' => $this->login,
@@ -177,11 +171,11 @@ class Smscenter
         $ret = curl_exec($ch);
 
         if (!$ret) {
-            throw new \Exception('Empty server response');
+            throw new ServerException('Empty server response');
         }
         $ret = json_decode($ret);
         if ($ret->error_code) {
-            throw new \Exception('Error ' . $ret->error_code . ': ' . $ret->error);
+            throw new ServerException('Error ' . $ret->error_code . ': ' . $ret->error);
         }
 
         return $ret;

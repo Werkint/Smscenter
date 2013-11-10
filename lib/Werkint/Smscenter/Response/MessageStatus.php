@@ -11,14 +11,31 @@ abstract class MessageStatus
     protected $id;
     protected $status;
 
-    public function __construct($id, $status)
-    {
+    public function __construct(
+        $id,
+        $status
+    ) {
         $this->id = $id;
         $this->status = $status;
     }
 
+    /**
+     * If there was error
+     * @return bool
+     */
     abstract public function isError();
 
+    // -- Status ---------------------------------------
+
+    public function getStatusText()
+    {
+        return $this->statuses[$this->status];
+    }
+
+    /**
+     * Status codes
+     * @var array
+     */
     protected $statuses = [
         -1 => 'Ожидает отправки (если при отправке сообщения было задано время получения абонентом, то до этого времени сообщение будет находиться в данном статусе, в других случаях сообщение в этом статусе находится непродолжительное время перед отправкой на SMS-центр)',
         0  => 'Передано оператору (сообщение было передано на SMS-центр оператора для доставки)',
@@ -30,11 +47,6 @@ abstract class MessageStatus
         24 => 'Недостаточно средств (на счете Клиента недостаточная сумма для отправки сообщения)',
         25 => 'Недоступный номер (телефонный номер не принимает SMS-сообщения, или на этого оператора нет рабочего маршрута)',
     ];
-
-    public function getStatusText()
-    {
-        return $this->statuses[$this->status];
-    }
 
     // -- Getters ---------------------------------------
 

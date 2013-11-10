@@ -17,7 +17,12 @@ class IncomingMessage
     protected $target;
 
     public function __construct(
-        $id, \DateTime $dateSent, \DateTime $dateReceived, $message, $phone, $target
+        $id,
+        \DateTime $dateSent,
+        \DateTime $dateReceived,
+        $message,
+        $phone,
+        $target
     ) {
         $this->dateReceived = $dateReceived;
         $this->dateSent = $dateSent;

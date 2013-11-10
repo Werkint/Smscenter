@@ -10,8 +10,11 @@ class MessageError extends MessageStatus
 {
     protected $error;
 
-    public function __construct($id, $status, $error)
-    {
+    public function __construct(
+        $id,
+        $status,
+        $error
+    ) {
         parent::__construct($id, $status);
         $this->error = $error;
     }

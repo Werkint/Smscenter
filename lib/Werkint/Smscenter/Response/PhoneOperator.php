@@ -11,8 +11,10 @@ class PhoneOperator
     protected $operator;
     protected $region;
 
-    public function __construct($operator, $region)
-    {
+    public function __construct(
+        $operator,
+        $region
+    ) {
         $this->operator = $operator;
         $this->region = $region;
     }

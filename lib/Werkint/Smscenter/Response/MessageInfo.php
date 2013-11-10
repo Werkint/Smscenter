@@ -10,7 +10,10 @@ class MessageInfo extends MessageStatus
 {
     protected $date;
 
-    public function __construct($id, $status, \DateTime $date)
+    public function __construct(
+        $id,
+        $status,
+        \DateTime $date)
     {
         parent::__construct($id, $status);
         $this->date = $date;
