@@ -11,6 +11,10 @@ class PhoneOperator
     protected $operator;
     protected $region;
 
+    /**
+     * @param string $operator
+     * @param string $region
+     */
     public function __construct(
         $operator,
         $region

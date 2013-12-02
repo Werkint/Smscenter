@@ -16,6 +16,14 @@ class IncomingMessage
     protected $phone;
     protected $target;
 
+    /**
+     * @param int       $id
+     * @param \DateTime $dateSent
+     * @param \DateTime $dateReceived
+     * @param string    $message
+     * @param string    $phone
+     * @param string    $target
+     */
     public function __construct(
         $id,
         \DateTime $dateSent,

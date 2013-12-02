@@ -24,6 +24,11 @@ class Smscenter implements
     protected $password;
     protected $sender;
 
+    /**
+     * @param string $login
+     * @param string $password
+     * @param string $sender
+     */
     public function __construct(
         $login,
         $password,
@@ -147,6 +152,7 @@ class Smscenter implements
 
     /**
      * Internal method for querying
+     *
      * @param string $command
      * @param array  $params
      * @return mixed
@@ -174,7 +180,7 @@ class Smscenter implements
             throw new ServerException('Empty server response');
         }
         $ret = json_decode($ret);
-        if ($ret->error_code) {
+        if (!empty($ret->error_code) && !empty($ret->error)) {
             throw new ServerException('Error ' . $ret->error_code . ': ' . $ret->error);
         }
 
@@ -188,6 +194,7 @@ class Smscenter implements
 
     /**
      * Internal method for populating date with TZ
+     *
      * @param string $date
      * @return \DateTime
      */

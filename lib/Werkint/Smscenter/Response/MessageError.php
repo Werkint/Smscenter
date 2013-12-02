@@ -10,6 +10,11 @@ class MessageError extends MessageStatus
 {
     protected $error;
 
+    /**
+     * @param int    $id
+     * @param string $status
+     * @param string $error
+     */
     public function __construct(
         $id,
         $status,
@@ -19,6 +24,9 @@ class MessageError extends MessageStatus
         $this->error = $error;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isError()
     {
         return true;

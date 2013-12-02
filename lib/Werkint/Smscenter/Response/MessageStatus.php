@@ -11,6 +11,10 @@ abstract class MessageStatus
     protected $id;
     protected $status;
 
+    /**
+     * @param int    $id
+     * @param string $status
+     */
     public function __construct(
         $id,
         $status
@@ -21,6 +25,7 @@ abstract class MessageStatus
 
     /**
      * If there was error
+     *
      * @return bool
      */
     abstract public function isError();
@@ -34,6 +39,7 @@ abstract class MessageStatus
 
     /**
      * Status codes
+     *
      * @var array
      */
     protected $statuses = [
